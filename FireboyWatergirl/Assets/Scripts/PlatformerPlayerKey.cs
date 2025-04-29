@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlatformerPlayerKey : MonoBehaviour
 {
     public float speed = 4.5f;
-    public float jumpForce = 12f;
+    public float jumpForce = 8f;
 
     private Rigidbody2D body;
     private Animator anim;
