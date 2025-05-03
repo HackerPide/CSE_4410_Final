@@ -15,7 +15,14 @@ public class PlatformerPlayerKey : MonoBehaviour
     private Animator anim;
     private BoxCollider2D box;
 
-    private bool isGrounded; 
+    private bool isGrounded;
+
+    AudioManager audioManager;
+
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -74,6 +81,7 @@ public class PlatformerPlayerKey : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.W) && isGrounded)
         {
             body.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            audioManager.PlaySFX(audioManager.jump);
         }
     }
 }
