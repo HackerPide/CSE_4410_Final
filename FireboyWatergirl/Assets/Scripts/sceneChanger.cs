@@ -1,16 +1,17 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class sceneChanger : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
+    private void OnEnable() {
+        Messenger<string>.AddListener(GameEvent.LEVEL_CHANGE, OnLevelChange);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    private void OnDisable() {
+        Messenger<string>.RemoveListener(GameEvent.LEVEL_CHANGE, OnLevelChange);
+    }
+
+    private void OnLevelChange(string levelName) {
+        SceneManager.LoadScene(levelName);
     }
 }
