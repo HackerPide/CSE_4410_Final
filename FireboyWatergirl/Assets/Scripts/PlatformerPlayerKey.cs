@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement; // Needed to reload scene
 
 public class PlatformerPlayerKey : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class PlatformerPlayerKey : MonoBehaviour
     private Rigidbody2D body;
     private Animator anim;
     private BoxCollider2D box;
+    private Vector3 platformVelocity = Vector3.zero;
+    private Rigidbody2D platformBody = null;
 
     private bool isGrounded;
 
@@ -28,7 +31,7 @@ public class PlatformerPlayerKey : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("MovingPlatform"))
         {
-            transform.parent = collision.transform;
+            platformBody = collision.gameObject.GetComponent<Rigidbody2D>();
         }
     }
 
@@ -36,8 +39,23 @@ public class PlatformerPlayerKey : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("MovingPlatform"))
         {
-            transform.parent = null;
+            platformBody = null;
         }
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Hazard"))
+        {
+            StartCoroutine(RestartAfterDelay());
+        }
+    }
+
+    IEnumerator RestartAfterDelay()
+    {
+        audioManager.PlaySFX(audioManager.death);
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -62,8 +80,14 @@ public class PlatformerPlayerKey : MonoBehaviour
             deltaX = -speed;
         }
 
-        Vector2 movement = new Vector2(deltaX, body.linearVelocity.y);
-        body.linearVelocity = movement;
+        Vector2 baseVelocity = new Vector2(deltaX, body.linearVelocity.y);
+
+        if (platformBody != null)
+        {
+            baseVelocity += platformBody.linearVelocity;
+        }
+
+        body.linearVelocity = baseVelocity;
 
         anim.SetFloat("speed", Mathf.Abs(deltaX));
         if (!Mathf.Approximately(deltaX, 0))
@@ -73,26 +97,7 @@ public class PlatformerPlayerKey : MonoBehaviour
 
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer); //
 
-        MovingPlatform platform = null;
-
-        if (platform != null)
-        {
-            transform.parent = platform.transform;
-        }
-        else
-        {
-            transform.parent = null;
-        }
-
-        Vector3 playerScale = Vector3.one;
-        if (platform != null)
-        {
-            playerScale = platform.transform.localScale;
-        }
-        if (!Mathf.Approximately(deltaX, 0))
-        {
-            transform.localScale = new Vector3(Mathf.Sign(deltaX) / playerScale.x, 1 / playerScale.y, 1);
-        }
+        
 
         if (Input.GetKeyDown(KeyCode.W) && isGrounded)
         {
@@ -101,3 +106,4 @@ public class PlatformerPlayerKey : MonoBehaviour
         }
     }
 }
+
