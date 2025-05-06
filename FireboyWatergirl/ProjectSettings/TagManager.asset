@@ -7,6 +7,7 @@ TagManager:
   - Audio
   - Player1
   - Player2
+  - MovingPlatform
   layers:
   - Default
   - TransparentFX
