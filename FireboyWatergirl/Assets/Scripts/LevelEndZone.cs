@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelEndZone : MonoBehaviour
 {
     AudioManager audioManager;
-
+	string currentScene;
+	string nextScene = "HomeScreen";
+	
     private void Awake()
     {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
@@ -36,8 +39,28 @@ public class LevelEndZone : MonoBehaviour
     {
         audioManager.PlaySFX(audioManager.victory);
         yield return new WaitForSeconds(audioManager.victory.length);
+		
+		currentScene = (SceneManager.GetActiveScene()).name;
+		switch(currentScene) 
+		{
+		  case "level1":
+			nextScene = "level2";
+			break;
+/* 		  case "level2":
+			nextScene = "level3";
+			break;
+		  case "level3":
+			nextScene = "level4";
+			break;
+		  case "level4":
+			nextScene = "HomeScreen";
+			break; */
+		  default:
+			nextScene = "HomeScreen";
+			break;
+		}
 
-        Messenger<string>.Broadcast(GameEvent.LEVEL_CHANGE, "HomeScreen");
+        Messenger<string>.Broadcast(GameEvent.LEVEL_CHANGE, nextScene);
     }
 }
 
