@@ -46,14 +46,14 @@ public class LevelEndZone : MonoBehaviour
 		  case "level1":
 			nextScene = "level2";
 			break;
-/* 		  case "level2":
-			nextScene = "level3";
+		  case "level2":
+			nextScene = "End";
 			break;
-		  case "level3":
+/* 		  case "level3":
 			nextScene = "level4";
 			break;
 		  case "level4":
-			nextScene = "HomeScreen";
+			nextScene = "End";
 			break; */
 		  default:
 			nextScene = "HomeScreen";
