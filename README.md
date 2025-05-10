@@ -23,3 +23,8 @@ Contributions:
 - Scott Renfrow
   - Implemented Level 1
   - Provided sprites, player models, level related scripts, and sound assets
+
+Third-party assets:
+- Background music: https://assetstore.unity.com/packages/audio/music/music-ancient-library-317836
+- SFX: https://assetstore.unity.com/packages/audio/sound-fx/free-casual-game-sfx-pack-54116
+- Players: https://craftpix.net/freebies/free-shinobi-sprites-pixel-art/
