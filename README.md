@@ -23,6 +23,9 @@ Contributions:
 - Scott Renfrow
   - Implemented Level 1
   - Provided sprites, player models, level related scripts, and sound assets
+- Oliver Seth-Smith
+  - Implemented Win/Loss Conditions
+  - Final bug testing
 
 Third-party assets:
 - Background music: https://assetstore.unity.com/packages/audio/music/music-ancient-library-317836
